@@ -13,3 +13,12 @@ Sources intégrées :
 
 Déploiement GitHub Pages :
 remplacer les fichiers du dépôt par ceux de cette archive, puis Commit changes sur main.
+
+
+## V2.2
+Ajout des spots BB 15 BB :
+- BB vs open BTN 2 BB
+- BB vs raise SB 2,2 BB
+- BB vs limp SB
+
+Ces spots sont volontairement marqués "grille à sourcer" tant qu'une source publique suffisamment détaillée ne permet pas de remplir honnêtement les 169 mains.

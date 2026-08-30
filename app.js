@@ -18,7 +18,8 @@ function setSpotOptions(){
     : [["firstin","First in / unopened"],["vs_limp","Vs limp"],["vs_raise","Vs raise"]];
   opts.forEach(([v,l],i)=>{
     const o=document.createElement("option"); o.value=v; o.textContent=l;
-    if(i>0)o.disabled=true; spotEl.appendChild(o);
+    if(pos!=="BB" && i>0)o.disabled=true;
+    spotEl.appendChild(o);
   });
 }
 

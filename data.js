@@ -25,5 +25,39 @@ const RANGE_DATA = {
     breakdown: { fold: 38.0, limp: 16.0, raise: 26.5, shove: 19.5 },
     pure: "44-22, TT+, AQs+, K9s+, QTs, JTs+, T9s+, T7s, T4s, 97s+, 86s+, 76s+, AJo-A2o, KJo, K7o",
     fifty: "55-22, 77+, AQs+, A8s-A4s, A2s, K8s+, K6s-K3s, QTs+, Q7s-Q3s, J3s+, T6s+, T4s, 95s+, 85s+, 74s+, 63s+, 53s+, 43s+, A2o+, K5o+, Q8o+, J8o+, T8o+, 97o+, 87o+"
+  },
+
+  "15|BB|vs_btn_open": {
+    label: "BB • 15 BB • Vs open BTN 2 BB",
+    status: "Structure vérifiée — grille à sourcer",
+    playedPct: "À valider",
+    source: "BTN ouvre à 2 BB dans la solution Spin & Go 3-max 15 BB de preflopranges.app. Les défenses BB exactes par main ne sont pas publiées dans la page statique.",
+    warning: "Ne pas utiliser comme range finale. Le spot est maintenant correctement défini : BB face à BTN 2 BB, 15 BB effectifs. Actions attendues : Fold / Call / Jam, avec petit 3-bet uniquement si la source choisie l'autorise.",
+    breakdown: { fold: 0, limp: 0, raise: 0, shove: 0 },
+    pure: "",
+    fifty: ""
+  },
+
+  "15|BB|vs_sb_raise": {
+    label: "BB • 15 BB • Vs raise SB 2,2 BB",
+    status: "Structure vérifiée — grille à sourcer",
+    playedPct: "À valider",
+    source: "SB utilise un open 2,2 BB dans la solution Spin & Go 3-max 15 BB de preflopranges.app.",
+    warning: "La grille de défense BB exacte n'est pas publiée dans le résumé statique. Des solutions 3-max 15 BB dédiées SB vs BB confirment que les arbres peuvent inclure Call / 3-bet petit / All-in selon le sizing retenu.",
+    breakdown: { fold: 0, limp: 0, raise: 0, shove: 0 },
+    pure: "",
+    fifty: ""
+  },
+
+  "15|BB|vs_sb_limp": {
+    label: "BB • 15 BB • Vs limp SB",
+    status: "Structure vérifiée — grille à sourcer",
+    playedPct: "À valider",
+    source: "Des solutions GTO 3-max 15 BB SB vs BB utilisent des branches d'iso-raise et d'all-in face au limp.",
+    warning: "Le sizing d'iso dépend de l'arbre de résolution (par exemple 2,5x ou 3x dans certaines solutions). Nous n'attribuons aucune fréquence par main tant qu'une grille exploitable n'est pas disponible.",
+    breakdown: { fold: 0, limp: 0, raise: 0, shove: 0 },
+    pure: "",
+    fifty: ""
   }
+
 };
