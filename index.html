@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f1115" />
+  <title>Ranges Expresso 3-max</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <h1>Ranges Expresso 3-max</h1>
+        <p>Préflop • profondeurs courtes • interface d'entraînement</p>
+      </div>
+      <div class="badge">V1 — grille interactive</div>
+    </header>
+
+    <div class="layout">
+      <aside class="panel">
+        <div class="controls">
+          <div>
+            <label for="stack">Profondeur</label>
+            <select id="stack">
+              <option value="15">15 BB</option>
+              <option value="12">12 BB</option>
+              <option value="10">10 BB</option>
+              <option value="8">8 BB</option>
+              <option value="6">6 BB</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="spot">Situation</label>
+            <select id="spot">
+              <option value="BTN_OPEN">BTN — Open</option>
+              <option value="SB_OPEN">SB — Open</option>
+              <option value="BB_VS_BTN">BB — vs open BTN</option>
+              <option value="BB_VS_SB">BB — vs open SB</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="display">Affichage</label>
+            <select id="display">
+              <option value="strategy">Stratégie</option>
+              <option value="range">Range seulement</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="info">
+          <strong id="spotTitle"></strong>
+          <span id="spotText">Base de démonstration. Les ranges théoriques définitives seront intégrées progressivement.</span>
+        </div>
+
+        <div class="legend">
+          <div class="leg"><span class="dot raise-dot"></span>Raise / shove</div>
+          <div class="leg"><span class="dot call-dot"></span>Call</div>
+          <div class="leg"><span class="dot mixed-dot"></span>Mix</div>
+          <div class="leg"><span class="dot fold-dot"></span>Fold</div>
+        </div>
+      </aside>
+
+      <main class="panel">
+        <div class="summary">
+          <h2 id="rangeName"></h2>
+          <div class="pct" id="rangePct"></div>
+        </div>
+
+        <div class="grid-wrap">
+          <div id="grid" class="grid" aria-label="Matrice de mains de poker"></div>
+        </div>
+
+        <div class="footer">Clique une main pour changer son statut : Fold → Raise → Call → Mix.</div>
+      </main>
+    </div>
+  </div>
+
+  <script src="ranges.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
