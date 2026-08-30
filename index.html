@@ -1,172 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Ranges Expresso — Prototype V1</title>
-<style>
-:root{
-  --bg:#0f141c; --panel:#171e29; --panel2:#111822; --text:#eef3f8; --muted:#9aa8b8;
-  --border:#2a3544; --pure:#1f9d68; --mixed:#d7a42a; --fold:#3c4654; --accent:#4f8cff;
-}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
-.app{max-width:1180px;margin:auto;padding:24px}
-h1{margin:0 0 6px;font-size:26px}.sub{color:var(--muted);margin-bottom:20px}
-.controls{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:12px;margin-bottom:18px}
-label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
-select{width:100%;background:var(--panel);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:10px}
-.gridwrap{display:grid;grid-template-columns:minmax(620px,1fr) 300px;gap:18px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
-.range-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:4px;aspect-ratio:1/1}
-.hand{border:1px solid rgba(255,255,255,.06);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;position:relative;user-select:none}
-.hand.pure{background:var(--pure)} .hand.mixed{background:var(--mixed);color:#17120a} .hand.fold{background:var(--fold)}
-.hand:hover{outline:2px solid white;z-index:2}
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 14px;font-size:13px;color:var(--muted)}
-.dot{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px}
-.stat{padding:12px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;margin:9px 0}
-.stat strong{display:block;font-size:20px;margin-top:3px}
-.note{font-size:13px;line-height:1.5;color:var(--muted)}
-.badge{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:#c9d5e2;margin-bottom:10px}
-#detail{min-height:90px}
-.warning{margin-top:15px;padding:12px;border-radius:10px;background:#261f12;border:1px solid #564721;color:#e7c977;font-size:13px;line-height:1.5}
-@media(max-width:900px){.gridwrap{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.range-grid{min-width:0}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0c1118" />
+  <title>Ranges Expresso V2</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="app">
-  <h1>Ranges Expresso</h1>
-  <div class="sub">Prototype 3-max • base théorique 15 BB • données séparées de l’interface</div>
-
-  <div class="controls">
-    <div><label>Format</label><select id="format"><option>3-handed</option><option disabled>Heads-up (bientôt)</option></select></div>
-    <div><label>Profondeur effective</label><select id="stack"></select></div>
-    <div><label>Position</label><select id="position"><option value="BTN">BTN</option><option value="SB">SB</option><option value="BB">BB</option></select></div>
-    <div><label>Situation</label><select id="spot"><option value="firstin">First in / unopened</option><option disabled>Vs limp (bientôt)</option><option disabled>Vs raise (bientôt)</option></select></div>
-  </div>
-
-  <div class="gridwrap">
-    <div class="card">
-      <div class="legend">
-        <span><i class="dot" style="background:var(--pure)"></i>Joué 100%</span>
-        <span><i class="dot" style="background:var(--mixed)"></i>Joué ≥50%, mix non publié</span>
-        <span><i class="dot" style="background:var(--fold)"></i>Fold / non validé</span>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">POKER 3-MAX • EXPRESSO</div>
+        <h1>Ranges Expresso</h1>
+        <p class="subtitle">Prototype V2 — interface de travail préflop 5 à 15 BB</p>
       </div>
-      <div id="grid" class="range-grid"></div>
-    </div>
-    <aside class="card">
-      <div class="badge" id="status">Source publique validée</div>
-      <div class="stat">Range jouée<strong id="played">—</strong></div>
-      <div class="stat">Actions globales<strong id="actions" style="font-size:15px;line-height:1.5">—</strong></div>
-      <div id="detail" class="stat"><span style="color:var(--muted)">Clique sur une main</span></div>
-      <p class="note" id="source"></p>
-      <div class="warning" id="warning">
-        Les couleurs ne prétendent pas reconstituer des fréquences exactes non publiées. Vert = main explicitement listée comme jouée à 100 %. Orange = main explicitement listée comme jouée à au moins 50 %.
+      <div class="status-pill">V2</div>
+    </header>
+
+    <section class="controls card">
+      <div class="control">
+        <label for="format">Format</label>
+        <select id="format">
+          <option value="3max">3-handed</option>
+        </select>
       </div>
-    </aside>
-  </div>
-</div>
-<script>
-const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
 
-function allHands(){
-  const out=[];
-  for(let r=0;r<13;r++){
-    for(let c=0;c<13;c++){
-      if(r===c) out.push(ranks[r]+ranks[c]);
-      else if(r<c) out.push(ranks[r]+ranks[c]+'s');
-      else out.push(ranks[c]+ranks[r]+'o');
-    }
-  }
-  return out;
-}
-const hands=allHands();
+      <div class="control">
+        <label for="stack">Profondeur effective</label>
+        <select id="stack"></select>
+      </div>
 
-function rankIndex(r){return ranks.indexOf(r)}
-function expandPairPlus(token){
-  const m=token.match(/^([2-9TJQKA])\1\+$/); if(!m)return null;
-  const idx=rankIndex(m[1]); const arr=[];
-  for(let i=idx;i>=12;i++){} // no-op
-  for(let i=idx;i>=0;i--) arr.push(ranks[i]+ranks[i]);
-  return arr;
-}
-function pairRange(a,b){
-  const ia=rankIndex(a), ib=rankIndex(b), out=[];
-  for(let i=ia;i<=ib;i++) out.push(ranks[i]+ranks[i]);
-  return out;
-}
-function expandPlus(token){
-  const pm=expandPairPlus(token); if(pm)return pm;
-  const m=token.match(/^([AKQJT98765432])([AKQJT98765432])([so])\+$/);
-  if(!m)return null;
-  const hi=rankIndex(m[1]), lo=rankIndex(m[2]), suited=m[3], out=[];
-  for(let j=lo;j>hi;j--) out.push(m[1]+ranks[j]+suited);
-  return out;
-}
-function expandDash(token){
-  let m=token.match(/^([AKQJT98765432])([AKQJT98765432])([so])-([AKQJT98765432])([AKQJT98765432])\3$/);
-  if(m && m[1]===m[4]){
-    const i1=rankIndex(m[2]), i2=rankIndex(m[5]), out=[];
-    const step=i1<i2?1:-1;
-    for(let i=i1;;i+=step){out.push(m[1]+ranks[i]+m[3]); if(i===i2)break}
-    return out;
-  }
-  m=token.match(/^([AKQJT98765432])\1-([AKQJT98765432])\2$/);
-  if(m) return pairRange(m[1],m[2]);
-  return null;
-}
-function parseNotation(s){
-  const set=new Set();
-  s.split(',').map(x=>x.trim()).filter(Boolean).forEach(t=>{
-    let ex=expandPlus(t)||expandDash(t);
-    if(ex) ex.forEach(h=>set.add(h)); else set.add(t);
-  });
-  return set;
-}
+      <div class="control">
+        <label for="position">Position</label>
+        <select id="position">
+          <option value="BTN">BTN</option>
+          <option value="SB">SB</option>
+          <option value="BB">BB</option>
+        </select>
+      </div>
 
-// Public text-form summaries from preflopranges.app, 15bb Spin & Go 3-max.
-const DATA={
-  "15-BTN-firstin":{
-    played:"32,1 %",
-    actions:"Shove 7,7 % • Raise 2bb 24,4 % • Fold 67,9 %",
-    pure:"22+, A3s+, K5s+, Q7s+, J8s+, T7s+, 97s+, 87s+, A6o+, K9o+, QTo+, JTo+",
-    fifty:"22+, A2s+, K5s+, Q7s+, J8s+, T7s+, 97s+, 86s+, 76s+, A5o+, K9o+, QTo+, JTo+, T9o+",
-    source:"Source : preflopranges.app — BTN Open 15bb, Spin & Go 3-max. Les actions exactes par main ne sont pas reprises lorsqu’elles ne sont pas données en texte public."
-  },
-  "15-SB-firstin":{
-    played:"62,0 %",
-    actions:"Shove 19,5 % • Raise 2,2bb 26,5 % • Limp 16,0 % • Fold 38,0 %",
-    pure:"44-22, TT+, AQs+, K9s+, QTs, JTs+, T9s+, T7s, T4s, 97s+, 86s+, 76s+, AJo-A2o, KJo, K7o",
-    fifty:"55-22, 77+, AQs+, A8s-A4s, A2s, K8s+, K6s-K3s, QTs+, Q7s-Q3s, J3s+, T6s+, T4s, 95s+, 85s+, 74s+, 63s+, 53s+, 43s+, A2o+, K5o+, Q8o+, J8o+, T8o+, 97o+, 87o+",
-    source:"Source : preflopranges.app — SB Open 15bb, Spin & Go 3-max. La source publie les fréquences globales shove/raise/limp, mais pas l’action exacte de chaque main dans son résumé texte."
-  }
-};
+      <div class="control">
+        <label for="spot">Situation</label>
+        <select id="spot"></select>
+      </div>
+    </section>
 
-const stack=document.getElementById('stack');
-for(let i=15;i>=5;i--){const o=document.createElement('option');o.value=i;o.textContent=i+' BB';stack.appendChild(o)}
-const position=document.getElementById('position'), spot=document.getElementById('spot'), grid=document.getElementById('grid');
+    <section class="summary-grid">
+      <div class="metric card">
+        <span>Range jouée</span>
+        <strong id="playedPct">—</strong>
+      </div>
+      <div class="metric card">
+        <span>Action dominante</span>
+        <strong id="dominantAction">—</strong>
+      </div>
+      <div class="metric card">
+        <span>Statut</span>
+        <strong id="dataStatus">—</strong>
+      </div>
+    </section>
 
-function render(){
-  const key=`${stack.value}-${position.value}-${spot.value}`;
-  const d=DATA[key];
-  document.getElementById('detail').innerHTML='<span style="color:var(--muted)">Clique sur une main</span>';
-  document.getElementById('played').textContent=d?d.played:'—';
-  document.getElementById('actions').textContent=d?d.actions:'Données à valider';
-  document.getElementById('source').textContent=d?d.source:"Cette profondeur / position n'est pas encore intégrée dans la base V1.";
-  document.getElementById('status').textContent=d?'Source publique validée':'À compléter';
-  let pure=new Set(), fifty=new Set();
-  if(d){pure=parseNotation(d.pure); fifty=parseNotation(d.fifty)}
-  grid.innerHTML='';
-  hands.forEach(h=>{
-    const el=document.createElement('div'); el.className='hand';
-    let state='fold', label='Fold / non validé';
-    if(pure.has(h)){state='pure';label='Joué 100 %'}
-    else if(fifty.has(h)){state='mixed';label='Joué ≥50 % (mix exact non publié)'}
-    el.classList.add(state); el.textContent=h;
-    el.onclick=()=>document.getElementById('detail').innerHTML=`<b>${h}</b><br><span style="color:var(--muted)">${label}</span>`;
-    grid.appendChild(el);
-  });
-}
-[stack,position,spot].forEach(x=>x.addEventListener('change',render)); render();
-</script>
+    <section class="workspace">
+      <section class="card range-card">
+        <div class="range-head">
+          <div>
+            <div class="section-kicker" id="spotTitle">BTN • 15 BB • First in</div>
+            <h2>Range 13 × 13</h2>
+          </div>
+          <div class="legend">
+            <span><i class="swatch fold"></i>Fold</span>
+            <span><i class="swatch limp"></i>Limp</span>
+            <span><i class="swatch raise"></i>Raise</span>
+            <span><i class="swatch shove"></i>All-in</span>
+            <span><i class="swatch mixed"></i>Mix</span>
+          </div>
+        </div>
+
+        <div id="matrix" class="matrix" aria-label="Matrice des mains de poker"></div>
+      </section>
+
+      <aside class="side-column">
+        <section class="card detail-card">
+          <div class="section-kicker">DÉTAIL DE LA MAIN</div>
+          <div id="handDetail" class="hand-detail">
+            <div class="big-hand">—</div>
+            <p>Clique sur une case de la matrice.</p>
+          </div>
+        </section>
+
+        <section class="card breakdown-card">
+          <div class="section-kicker">RÉPARTITION</div>
+          <div id="breakdown"></div>
+        </section>
+
+        <section class="card source-card">
+          <div class="section-kicker">DONNÉES</div>
+          <p id="sourceText"></p>
+          <div id="warningBox" class="warning"></div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -1,17 +1,21 @@
-# Ranges Expresso — GitHub Pages
+# Ranges Expresso V2
 
-Mini application web statique de ranges Expresso 3-max.
+Application web statique pour travailler les ranges préflop en Expresso 3-max.
 
 ## Mise en ligne sur GitHub Pages
 
-1. Créez un nouveau dépôt GitHub, par exemple `ranges-expresso`.
-2. Ajoutez à la racine du dépôt :
+1. Ouvrir le dépôt GitHub `ranges-expresso`
+2. Supprimer/remplacer les anciens fichiers si nécessaire
+3. Ajouter à la racine :
    - `index.html`
+   - `style.css`
+   - `data.js`
+   - `app.js`
    - `.nojekyll`
-   - `README.md`
-3. Ouvrez **Settings > Pages**.
-4. Dans **Build and deployment**, choisissez **Deploy from a branch**.
-5. Sélectionnez la branche **main** et le dossier **/(root)**, puis **Save**.
-6. Une fois publié, GitHub affichera l'adresse du site dans la section Pages.
+4. Commit sur `main`
+5. GitHub Pages publiera automatiquement la nouvelle version
 
-Le fichier d'entrée attendu par GitHub Pages est `index.html`, déjà placé à la racine.
+## Important
+
+Les spots 15 BB BTN et SB sont uniquement des bases de prototype partiellement validées.
+Les profondeurs et spots non remplis restent affichés comme "À compléter".
