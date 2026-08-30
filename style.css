@@ -77,3 +77,8 @@ select:focus{border-color:var(--accent)}
   .cell{font-size:9px}
   .matrix{gap:2px}
 }
+
+.cell.play100{background:#208a63}
+.cell.play50{background:#b78728;color:#17130b}
+.swatch.play100{background:#208a63}
+.swatch.play50{background:#b78728}

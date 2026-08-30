@@ -1,21 +1,15 @@
-# Ranges Expresso V2
+# Ranges Expresso V2.1
 
-Application web statique pour travailler les ranges préflop en Expresso 3-max.
+Correction méthodologique importante :
+- aucune action par main n'est inventée quand la source publique ne la donne pas ;
+- vert = main jouée 100 % ;
+- orange = main jouée au moins 50 % ;
+- gris = non publiée dans la catégorie ≥50 % ;
+- la répartition globale Fold / Limp / Raise / All-in reste affichée lorsqu'elle est vérifiée.
 
-## Mise en ligne sur GitHub Pages
+Sources intégrées :
+- preflopranges.app/charts/spins/btn-open-15bb
+- preflopranges.app/charts/spins/sb-open-15bb
 
-1. Ouvrir le dépôt GitHub `ranges-expresso`
-2. Supprimer/remplacer les anciens fichiers si nécessaire
-3. Ajouter à la racine :
-   - `index.html`
-   - `style.css`
-   - `data.js`
-   - `app.js`
-   - `.nojekyll`
-4. Commit sur `main`
-5. GitHub Pages publiera automatiquement la nouvelle version
-
-## Important
-
-Les spots 15 BB BTN et SB sont uniquement des bases de prototype partiellement validées.
-Les profondeurs et spots non remplis restent affichés comme "À compléter".
+Déploiement GitHub Pages :
+remplacer les fichiers du dépôt par ceux de cette archive, puis Commit changes sur main.
