@@ -3,61 +3,66 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ranges Expresso</title>
+  <title>Ranges Expresso V3</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app">
-    <header>
-      <button class="menu">☰</button>
-      <div>
-        <h1>Ranges Expresso</h1>
-        <p>3-max • Préflop • Base solver 15bb</p>
-      </div>
-      <label>Profondeur
-        <select id="depth">
-          <option>15</option><option>12</option><option>10</option>
-          <option>8</option><option>6</option><option>5</option>
-        </select> BB
-      </label>
-    </header>
+<main class="app">
+  <header>
+    <button class="menu">☰</button>
+    <div>
+      <h1>Ranges Expresso</h1>
+      <p>3-max • Préflop • 15bb</p>
+    </div>
+    <label>Spot
+      <select id="spot">
+        <option value="BTN_OPEN">BTN — Open</option>
+        <option value="SB_OPEN">SB — Open</option>
+        <option value="BB_VS_BTN">BB — vs BTN raise 2bb</option>
+      </select>
+    </label>
+  </header>
 
-    <section class="layout">
-      <div class="card table-card">
-        <div class="poker-table">
-          <div class="felt"><span>Pot : 1.5bb</span></div>
-          <button class="seat btn" data-pos="BTN">BTN</button>
-          <button class="seat bb" data-pos="BB">BB<br><small>1bb</small></button>
-          <button class="seat sb active" data-pos="SB">SB<br><small>0.5bb</small></button>
+  <section class="layout">
+    <div class="card table-card">
+      <div class="poker-table">
+        <div class="felt"><span id="pot">Pot : 1.5bb</span></div>
+        <button class="seat btn">BTN<br><small id="btnAct"></small></button>
+        <button class="seat bb active">BB<br><small id="bbAct">?</small></button>
+        <button class="seat sb">SB<br><small id="sbAct"></small></button>
+      </div>
+    </div>
+
+    <aside class="card info">
+      <h2>Range Info</h2>
+      <div class="big">15bb deep</div>
+      <hr>
+      <p id="scenario">BB vs BTN raise 2bb</p>
+      <strong id="hero">BB</strong>
+      <p class="hint" id="sourceNote"></p>
+    </aside>
+
+    <div class="card range-card">
+      <div class="range-head">
+        <div><strong id="spotTitle"></strong><span id="rangePct"></span></div>
+        <div class="legend-mini">
+          <i class="fold"></i>Fold
+          <i class="call"></i>Call
+          <i class="raise"></i>3-bet
+          <i class="allin"></i>All-in
         </div>
       </div>
+      <div id="grid" class="grid"></div>
+    </div>
 
-      <aside class="card info">
-        <h2>Range Info</h2>
-        <div class="big" id="infoDepth">15bb deep</div>
-        <hr>
-        <p>Position sélectionnée</p>
-        <strong id="position">SB</strong>
-        <p class="hint">Clique sur un siège pour changer de spot.</p>
-      </aside>
-
-      <div class="card range-card">
-        <div class="range-head">
-          <div><strong id="spotTitle">SB OPEN</strong><span id="rangePct"></span></div>
-          <div class="legend-mini"><i class="fold"></i>Fold <i class="limp"></i>Limp <i class="raise"></i>Raise <i class="allin"></i>All-in</div>
-        </div>
-        <div id="grid" class="grid"></div>
-      </div>
-
-      <aside class="card actions">
-        <h2 id="actionTitle">SB OPENS</h2>
-        <div id="legend"></div>
-        <div class="selected-hand" id="selectedHand">AA</div>
-        <div id="detail"></div>
-        <button id="simplify">Simplifier la range</button>
-      </aside>
-    </section>
-  </main>
-  <script src="app.js"></script>
+    <aside class="card actions">
+      <h2 id="actionTitle"></h2>
+      <div id="legend"></div>
+      <div class="selected-hand" id="selectedHand">AA</div>
+      <div id="detail"></div>
+    </aside>
+  </section>
+</main>
+<script src="app.js"></script>
 </body>
 </html>
